@@ -97,9 +97,18 @@
         await chargerLivres();
     }
 
-    // Bonus (si TODO 3 fait) — DELETE /api/books/{id}
+    // Bonus — supprimer un livre via DELETE
     async function supprimerLivre(id) {
-        afficherMessage('Bonus : DELETE /api/books/' + id, false);
+        const res = await fetch(base + '/api/books/' + id, { method: 'DELETE' });
+        const json = await res.json();
+
+        if (!res.ok) {
+            afficherMessage(json.error || 'Suppression impossible', false);
+            return;
+        }
+
+        afficherMessage('Livre supprimé.', true);
+        await chargerLivres();
     }
 
     form.addEventListener('submit', async function (e) {
